@@ -6,6 +6,7 @@ let workingValue = '';
 let storedValue = 0;
 let operator = '';
 let solution = 0;
+let divByZero = false;
 
 padButtons.forEach(el => {
     el.addEventListener('click', () => {
@@ -34,7 +35,16 @@ function calcFill (value, type) {
         } else {
             solution = calcSolve(storedValue, workingValue, operator);
             console.log(`var solution is ${solution}`);
-            display.textContent = solution;
+            switch(divByZero) {
+                case false:
+                    display.textContent = solution;
+                    break;
+                case true:
+                    display.textContent = "Typical. Very you."
+                    break;
+                default:
+                    console.log("Sorry, I was in the bathroom. What'd I mi- Where'd... Where is everyone? ")
+            }
             calcClear(1);
         }
     } else if(type.contains("clear")){
@@ -50,7 +60,13 @@ function calcSolve(a, b, sign) {
         case '*':
             return (a*b).toFixed(0);
         case '/':
-            return(a/b).toFixed(0);
+            if(b == 0){
+                divByZero = true;
+                console.log(divByZero);
+                return 0;
+            } else {
+                return(a/b).toFixed(0);
+            }
         case '+':
             return(a+b);
         case '-':
