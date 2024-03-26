@@ -1,21 +1,29 @@
 const numPadWrapper = document.getElementById('number-pad');
 const opPadWrapper = document.getElementById('operator-pad');
 const padButtons = document.querySelectorAll('.pad-button');
-let numA = null;
-let numB = null;
+let numA = '';
+let numB = '';
 let operator;
 let display = document.getElementById('calc-display')
 
 function operate(a,b,op){
     switch(op){
         case '*':
-            return(a*b);
+            display.textContent = `${a*b}`;
+            calcClear(false);
+            break;
         case '/':
-            return(a/b);
+            display.textContent = `${a/b}`;
+            calcClear(false);
+            break;
         case '+':
-            return(a+b);
+            display.textContent = `${a+b}`;
+            calcClear(false);
+            break;
         case '-':
-            return(a-b);
+            display.textContent = `${a-b}`;
+            calcClear(false);
+            break;
         default:
             console.log('What have you done');
             break;
@@ -53,16 +61,13 @@ function clickChecker(el) {
             console.log(`Selected operator: ${el}`);
             break;
         case 'C':
-            calcClear();
+            calcClear(true);
             console.log('Cleared');
             break;
         case '=':
             if(numA && numB && operator){
                 operate(numA, numB, operator);
                 console.log('Calculating...');
-            } else if (numA){
-                console.log('x = x, as it were');
-                display.textContent = `${numA}`;
             }
             break;
         default:
@@ -71,7 +76,33 @@ function clickChecker(el) {
 }
 
 function calcStore(value) {
-    if(value) {
-        
+    if(Number(value) && !operator) {
+        numA += value;
+        console.log(numA)
+        display.textContent = `${numA}`;
+    } else if (!operator) {
+        if(!Number(value)) {
+            console.log(`${value} is an operator`);
+            operator = value;
+        } else if (Number(value)) {
+            console.log(`${value} is not an operator`);
+        }
+    } else {
+        numB += value;
+        console.log(numB);
+        display.textContent = `${numB}`;
+    }
+}
+
+function calcClear(state) {
+    if(state) {
+        numA = null;
+        numB = null;
+        operator = '';
+        display.textContent = '0';
+    } else if (!state) {
+        numA = display.textContent;
+        numB = null;
+        operator = '';
     }
 }
