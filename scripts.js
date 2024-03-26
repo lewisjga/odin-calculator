@@ -26,10 +26,17 @@ function calcFill (value, type) {
         workingValue = '';
         operator = value;
     } else if(type.contains("equals")){
-        solution = calcSolve(storedValue, workingValue, operator);
-        console.log(`var solution is ${solution}`);
-        display.textContent = solution;
-        calcClear(1);
+        if(!storedValue){
+            solution = workingValue;
+            console.log(`var solution is ${solution}`);
+            display.textContent = solution;
+            calcClear(1);
+        } else {
+            solution = calcSolve(storedValue, workingValue, operator);
+            console.log(`var solution is ${solution}`);
+            display.textContent = solution;
+            calcClear(1);
+        }
     } else if(type.contains("clear")){
         calcClear(2);
         console.log('Clear selected');
